@@ -14,26 +14,28 @@ namespace Repository.Extensions.Utility
             var orderParams = orderByQueryString.Trim().Split(',');
             var propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var orderQueryBuilder = new StringBuilder();
+
             foreach (var param in orderParams)
             {
                 if (string.IsNullOrWhiteSpace(param))
                     continue;
 
-                var propertyFromQueryName = param.Split(" ")[0];
+                var parts = param.Split(" ");
+                var propertyFromQueryName = parts[0];
+                var direction = parts.Length > 1 && parts[1].ToLower() == "desc" ? "desc" : "asc";
 
                 var objectProperty = propertyInfos.FirstOrDefault(pi =>
-                pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
+                    pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
 
                 if (objectProperty == null)
                     continue;
 
-                var direction = param.EndsWith(" desc") ? "descending" : "ascending";
-
-                orderQueryBuilder.Append($"{objectProperty.Name.ToString()}{ direction}, ");
+                orderQueryBuilder.Append($"{objectProperty.Name} {direction}, ");
             }
+
             var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
             return orderQuery;
         }
-
     }
+
 }

@@ -26,7 +26,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters,  bool trackChanges)
+        public async Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
         {
             if (!employeeParameters.ValidAgeRange)
                 throw new MaxAgeRangeBadRequestException();
@@ -74,7 +74,7 @@ namespace Service
         {
             await CheckIfCompanyExists(companyId, trackChanges);
 
-            var employeeForCompany = await GetEmployeeForCompanyAndCheckIfItExists(companyId, id,trackChanges);
+            var employeeForCompany = await GetEmployeeForCompanyAndCheckIfItExists(companyId, id, trackChanges);
 
             _repository.Employee.DeleteEmployee(employeeForCompany);
             await _repository.SaveAsync();
@@ -92,11 +92,11 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task<(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)> GetEmployeeForPatchAsync (Guid companyId, Guid id, bool compTrackChanges, bool empTrackChanges)
+        public async Task<(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)> GetEmployeeForPatchAsync(Guid companyId, Guid id, bool compTrackChanges, bool empTrackChanges)
         {
             await CheckIfCompanyExists(companyId, compTrackChanges);
 
-            var employeeDb = await GetEmployeeForCompanyAndCheckIfItExists(companyId, id,empTrackChanges);
+            var employeeDb = await GetEmployeeForCompanyAndCheckIfItExists(companyId, id, empTrackChanges);
 
             var employeeToPatch = _mapper.Map<EmployeeForUpdateDto>(employeeDb);
             return (employeeToPatch, employeeDb);

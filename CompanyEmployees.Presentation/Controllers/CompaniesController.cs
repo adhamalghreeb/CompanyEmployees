@@ -15,6 +15,8 @@ namespace CompanyEmployees.Presentation.Controllers
 {
     [Route("api/companies")]
     [ApiController]
+    
+
     public class CompaniesController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -30,6 +32,7 @@ namespace CompanyEmployees.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}", Name = "CompanyById")]
+        
         public async Task<IActionResult> GetCompany(Guid id)
         {
 

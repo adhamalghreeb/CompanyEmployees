@@ -6,9 +6,9 @@ using System.Dynamic;
 
 namespace Service
 {
-    public class DataShaper /* <T> : IDataShaper<T> where T : class */
+    public class DataShaper <T> : IDataShaper<T> where T : class
     {
-        /*
+        
         public PropertyInfo[] Properties { get; }
 
         public DataShaper()
@@ -81,7 +81,7 @@ namespace Service
             shapedObject.Id = (Guid)objectProperty.GetValue(entity);
             return shapedObject;
         }
-        */
+        
 
     }
 

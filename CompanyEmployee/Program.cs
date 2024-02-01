@@ -19,6 +19,9 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.ConfigureVersioning();
 builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();
@@ -77,6 +80,7 @@ app.UseResponseCaching();
 app.UseHttpCacheHeaders();
 
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
